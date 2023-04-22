@@ -1,40 +1,45 @@
-# :package_description
+# A simple package for tracking user activities on your Laravel website.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/combindma/laravel-trail.svg?style=flat-square)](https://packagist.org/packages/combindma/laravel-trail)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/combindma/laravel-trail/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/combindma/laravel-trail/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/combindma/laravel-trail/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/combindma/laravel-trail/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/combindma/laravel-trail.svg?style=flat-square)](https://packagist.org/packages/combindma/laravel-trail)
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Laravel Trail is a powerful and easy-to-use package for tracking user activities on your Laravel website. Developed by Combind, this package automatically logs important information such as UTM tags, referrers, user actions, and more, giving you valuable insights into your users behavior and their journey through your website.
+
+## But WHY ?
+
+The Laravel Trail is designed to help developers effortlessly capture and store user activity data on their websites. This package enables you to track vital information such as UTM tags, referrers, and user actions, which can be used to gain valuable insights into user behavior and website performance.
+
+By storing this information, developers can easily integrate it with their preferred tracking tools, such as Google Analytics or other analytics platforms, to further analyze user interactions and optimize their websites for improved user experience, conversion rates and improve their marketing targeting.
+
+## Features
+
+- **Effortless Tracking**: Automatically track user activities without any additional code
+- **Capture Important Data**: Log UTM tags, referrers, and user actions for valuable insights
+- **Cookies Integration**: Store tracked data in cookies
+- **Customizability**: Easily extend and modify the package to track additional data or events
+- **Documentation & Support**: Benefit from comprehensive documentation and support
+
+## About Combind Agency
+
+[Combine Agency](https://combind.ma?utm_source=github&utm_medium=banner&utm_campaign=laravel_trail) is a leading web development agency specializing in building innovative and high-performance web applications using modern technologies. Our experienced team of developers, designers, and project managers is dedicated to providing top-notch services tailored to the unique needs of our clients.
+
+If you need assistance with your next project or would like to discuss a custom solution, please feel free to [contact us](mailto:hello@combind.ma) or visit our [website](https://combind.ma?utm_source=github&utm_medium=banner&utm_campaign=laravel_trail) for more information about our services. Let's build something amazing together!
+
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+composer require combindma/laravel-trail
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-config"
+php artisan vendor:publish --tag="laravel-trail-config"
 ```
 
 This is the contents of the published config file:
@@ -44,17 +49,11 @@ return [
 ];
 ```
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
-
 ## Usage
 
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+$trail = new Combindma\Trail();
+echo $trail->echoPhrase('Hello, Combindma!');
 ```
 
 ## Testing
@@ -77,7 +76,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Combind](https://github.com/combindma)
 - [All Contributors](../../contributors)
 
 ## License
