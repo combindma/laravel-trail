@@ -53,6 +53,35 @@ return [
 ];
 ```
 
+## Monitored Tags
+Laravel Trail automatically tracks and stores the following tags, providing valuable insights into user behavior, traffic sources, and user demographics:
+
+1. **UTM Tags**
+    - `utm_source`: Identifies the traffic source (e.g., google, newsletter, referral_website).
+    - `utm_medium`: Describes the marketing medium (e.g., cpc, email, social).
+    - `utm_campaign`: Provides details about the specific marketing campaign or promotion (e.g., spring_sale, newsletter_april).
+    - `utm_term`: Captures the keywords used for paid search campaigns (e.g., running+shoes, digital+marketing).
+    - `utm_content`: Differentiates between multiple links within the same ad or content piece (e.g., logo_link, text_link).
+
+2. **Additional Tags**
+    - `referrer`: The URL of the referring website that sent the user to your website.
+    - `referrer_code` or `referrer_id`: A unique code or ID associated with the referrer (e.g., an affiliate partner or referral program).
+    - `landing_page`: The first page the user visits on your website during a session.
+    - `exit_page`: The last page the user visits before leaving your website.
+    - `session_duration`: The total time a user spends on your website during a single session.
+    - `page_views`: The number of pages viewed by the user during a single session.
+    - `device`: The type of device used by the user (e.g., desktop, tablet, mobile).
+    - `browser`: The user's web browser (e.g., Chrome, Firefox, Safari).
+    - `operating_system`: The user's operating system (e.g., Windows, macOS, Android, iOS).
+    - `ip_address`: The user's IP address, which can provide insights into their location and network.
+    - `conversion_date`: The date when a user completes a desired action or goal (e.g., making a purchase or signing up for a newsletter).
+    - `last_activity`: The date and time of the user's most recent activity on your website.
+    - `user_id`: A unique identifier for registered or logged-in users on your website.
+    - `user_agent`: The user agent string, which provides detailed information about the user's browser, operating system, and device.
+    - `language`: The user's preferred language, as specified in their browser settings.
+
+These tags can help you optimize your website for better user experience and higher conversion rates by giving you a deeper understanding of user interactions and traffic patterns.
+
 ## Usage
 
 ```php
