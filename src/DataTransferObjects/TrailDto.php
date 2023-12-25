@@ -6,12 +6,12 @@ readonly class TrailDto
 {
     public function __construct(
         public string $anonymousId,
-        public string $landingPage,
-        public string $exitPage,
-        public string $lastActivity,
-        public string $ipAddress,
-        public string $language,
-        public string $userAgent,
+        public ?string $landingPage,
+        public ?string $exitPage,
+        public ?string $lastActivity,
+        public ?string $ipAddress,
+        public ?string $language,
+        public ?string $userAgent,
         public ?string $referrer,
         public ?string $referrerCode,
         public ?string $utmSource,
