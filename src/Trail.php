@@ -2,6 +2,8 @@
 
 namespace Combindma\Trail;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Traits\Macroable;
 
 class Trail
@@ -14,58 +16,21 @@ class Trail
 
     public bool $enabled;
 
-    public readonly string $utmSource;
-
-    public readonly string $utmMedium;
-
-    public readonly string $utmCampaign;
-
-    public readonly string $utmTerm;
-
-    public readonly string $utmContent;
-
-    public readonly string $referrer;
-
-    public readonly string $referrerCode;
-
-    public readonly string $landingPage;
-
-    private string $exitPage;
-
-    private int $sessionDuration;
-
-    private int $pageViews;
-
-    private string $device;
-
-    private string $browser;
-
-    private string $operatingSystem;
-
-    private string $screenResolution;
-
-    private string $ipAddress;
-
-    private DateTime $conversionDate;
-
-    private DateTime $lastActivity;
-
-    private string $userId;
-
-    private string $userAgent;
-
-    private string $language;
-
     public function __construct()
     {
         $this->prefix = config('trail.prefix');
         $this->cookieDuration = config('trail.cookie_duration');
         $this->enabled = config('trail.enabled');
-        $this->utmSource = $this->prefix.'utm_source';
-        $this->utmMedium = $this->prefix.'utm_medium';
-        $this->utmCampaign = $this->prefix.'utm_campaign';
-        $this->utmTerm = $this->prefix.'utm_term';
-        $this->utmContent = $this->prefix.'utm_content';
+    }
+
+    public function setTrailCookie(string $name, mixed $value): void
+    {
+        Cookie::queue(Cookie::make($this->prefix.$name, $value, $this->cookieDuration));
+    }
+
+    public function getTrailCookie(Request $request, string $name): array|string|null
+    {
+        return $request->cookie($this->prefix.$name);
     }
 
     public function isEnabled(): bool
@@ -86,5 +51,40 @@ class Trail
     public function disable(): void
     {
         $this->enabled = false;
+    }
+
+    public function init(Request $request): void
+    {
+        $this->setTrailCookie('exit_page', $request->path());
+        $this->setTrailCookie('last_activity', now());
+        $this->setTrailCookie('user_agent', $request->userAgent());
+        $this->setTrailCookie('ip_address', $request->ip());
+        $this->setTrailCookie('language', $request->server('HTTP_ACCEPT_LANGUAGE'));
+
+        if (empty($request->cookie('landing_page'))) {
+            $this->setTrailCookie('landing_page', $request->path());
+        }
+    }
+
+    public function setUtmCookies(Request $request): void
+    {
+        $utmParameters = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+        foreach ($utmParameters as $param) {
+            if ($request->has($param)) {
+                $this->setTrailCookie($param, $request->input($param));
+            }
+        }
+    }
+
+    public function setReferrerCookies(Request $request): void
+    {
+        $utmParameters = ['referrer', 'referrer_code'];
+
+        foreach ($utmParameters as $param) {
+            if ($request->has($param)) {
+                $this->setTrailCookie($param, $request->input($param));
+            }
+        }
     }
 }
