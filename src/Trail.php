@@ -76,6 +76,18 @@ class Trail
         }
     }
 
+    public function getAnonymousId(Request $request): string
+    {
+        $anonymousId = $request->cookie($this->prefix.'anonymous_id');
+
+        if (empty($anonymousId)) {
+            $anonymousId = Str::uuid()->toString();
+            $this->setTrailCookie('anonymous_id', $anonymousId);
+        }
+
+        return $anonymousId;
+    }
+
     public function setUtmCookies(Request $request): void
     {
         if ($this->isDisabled()) {
@@ -109,7 +121,7 @@ class Trail
     public function data(Request $request): TrailDto
     {
         return new TrailDto(
-            $request->cookie($this->prefix.'anonymous_id'),
+            $this->getAnonymousId($request),
             $request->cookie($this->prefix.'landing_page'),
             $request->cookie($this->prefix.'exit_page'),
             $request->cookie($this->prefix.'last_activity'),
