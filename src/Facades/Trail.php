@@ -2,6 +2,7 @@
 
 namespace Combindma\Trail\Facades;
 
+use Combindma\Trail\DataTransferObjects\TrailDto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void disable()
  * @method static void setTrailCookie(string $name, mixed $value)
  * @method static array|string|null getTrailCookie(Request $request, string $name)
+ * @method static TrailDto data(Request $request)
  */
 class Trail extends Facade
 {

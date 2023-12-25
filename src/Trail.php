@@ -2,6 +2,7 @@
 
 namespace Combindma\Trail;
 
+use Combindma\Trail\DataTransferObjects\TrailDto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
@@ -65,11 +66,11 @@ class Trail
         $this->setTrailCookie('ip_address', $request->ip());
         $this->setTrailCookie('language', substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2));
 
-        if (empty($request->cookie('landing_page'))) {
+        if (empty($request->cookie($this->prefix.'landing_page'))) {
             $this->setTrailCookie('landing_page', $request->url());
         }
 
-        if (empty($request->cookie('anonymous_id'))) {
+        if (empty($request->cookie($this->prefix.'anonymous_id'))) {
             $anonymousId = Str::uuid()->toString();
             $this->setTrailCookie('anonymous_id', $anonymousId);
         }
@@ -103,5 +104,25 @@ class Trail
                 $this->setTrailCookie($param, $request->input($param));
             }
         }
+    }
+
+    public function data(Request $request): TrailDto
+    {
+        return new TrailDto(
+            $request->cookie($this->prefix.'anonymous_id'),
+            $request->cookie($this->prefix.'landing_page'),
+            $request->cookie($this->prefix.'exit_page'),
+            $request->cookie($this->prefix.'last_activity'),
+            $request->cookie($this->prefix.'ip_address'),
+            $request->cookie($this->prefix.'language'),
+            $request->cookie($this->prefix.'user_agent'),
+            $request->cookie($this->prefix.'referrer'),
+            $request->cookie($this->prefix.'referrer_code'),
+            $request->cookie($this->prefix.'utm_source'),
+            $request->cookie($this->prefix.'utm_medium'),
+            $request->cookie($this->prefix.'utm_campaign'),
+            $request->cookie($this->prefix.'utm_term'),
+            $request->cookie($this->prefix.'utm_content'),
+        );
     }
 }
