@@ -58,14 +58,14 @@ class Trail
         if ($this->isDisabled()) {
             return;
         }
-        $this->setTrailCookie('exit_page', $request->path());
+        $this->setTrailCookie('exit_page', $request->url());
         $this->setTrailCookie('last_activity', now());
         $this->setTrailCookie('user_agent', $request->userAgent());
         $this->setTrailCookie('ip_address', $request->ip());
-        $this->setTrailCookie('language', $request->server('HTTP_ACCEPT_LANGUAGE'));
+        $this->setTrailCookie('language', substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2));
 
         if (empty($request->cookie('landing_page'))) {
-            $this->setTrailCookie('landing_page', $request->path());
+            $this->setTrailCookie('landing_page', $request->url());
         }
     }
 

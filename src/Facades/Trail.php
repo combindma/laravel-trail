@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static void setReferrerCookies(Request $request)
  * @method static void enable()
  * @method static void disable()
+ * @method static void setTrailCookie(string $name, mixed $value)
+ * @method static array|string|null getTrailCookie(string $name, mixed $value)
  */
 class Trail extends Facade
 {
