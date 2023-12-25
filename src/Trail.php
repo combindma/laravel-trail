@@ -55,6 +55,9 @@ class Trail
 
     public function init(Request $request): void
     {
+        if ($this->isDisabled()) {
+            return;
+        }
         $this->setTrailCookie('exit_page', $request->path());
         $this->setTrailCookie('last_activity', now());
         $this->setTrailCookie('user_agent', $request->userAgent());
@@ -68,6 +71,10 @@ class Trail
 
     public function setUtmCookies(Request $request): void
     {
+        if ($this->isDisabled()) {
+            return;
+        }
+
         $utmParameters = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
         foreach ($utmParameters as $param) {
@@ -79,6 +86,10 @@ class Trail
 
     public function setReferrerCookies(Request $request): void
     {
+        if ($this->isDisabled()) {
+            return;
+        }
+
         $utmParameters = ['referrer', 'referrer_code'];
 
         foreach ($utmParameters as $param) {
