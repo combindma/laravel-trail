@@ -75,14 +75,15 @@ Laravel Trail automatically tracks and stores the following tags, providing valu
 
 
 2. **Additional Tags**
-    - `referrer`: The URL of the referring website that sent the user to your website.
-    - `referrer_code`: A unique code or ID associated with the referrer (e.g., an affiliate partner or referral program).
+    - `anonymous_id`: A unique identifier for tracking anonymous users on your website.
     - `landing_page`: The first page the user visits on your website during a session.
     - `exit_page`: The last page the user visits before leaving your website.
     - `ip_address`: The user's IP address, which can provide insights into their location and network.
     - `last_activity`: The date and time of the user's most recent activity on your website.
     - `user_agent`: The user agent string, which provides detailed information about the user's browser, operating system, and device.
     - `language`: The user's preferred language, as specified in their browser settings.
+    - `referrer`: The URL of the referring website that sent the user to your website.
+    - `referrer_code`: A unique code or ID associated with the referrer (e.g., an affiliate partner or referral program).
 
 
 3. **Expected Tags for the futur**
@@ -100,7 +101,7 @@ These tags can help you optimize your website for better user experience and hig
 
 ### Add the setup middleware
 
-This middleware is responsable for setting: exit_page, landing_page, last_activity, user_agent, ip_address, language
+This middleware is responsable for setting: anonymous_id, exit_page, landing_page, last_activity, user_agent, ip_address, language
 ```php
 // app/Http/Kernel.php
 protected $middleware = [

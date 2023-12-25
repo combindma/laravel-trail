@@ -4,6 +4,7 @@ namespace Combindma\Trail;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 
 class Trail
@@ -66,6 +67,11 @@ class Trail
 
         if (empty($request->cookie('landing_page'))) {
             $this->setTrailCookie('landing_page', $request->url());
+        }
+
+        if (empty($request->cookie('anonymous_id'))) {
+            $anonymousId = Str::uuid()->toString();
+            $this->setTrailCookie('anonymous_id', $anonymousId);
         }
     }
 

@@ -55,6 +55,7 @@ it('initializes trail and sets cookies correctly', function () {
     $responseCookies = $response->headers->getCookies();
     $cookieNames = collect($responseCookies)->map(fn ($cookie) => $cookie->getName());
     $expectedCookies = [
+        'app_anonymous_id',
         'app_exit_page',
         'app_last_activity',
         'app_user_agent',
