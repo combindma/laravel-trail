@@ -76,6 +76,9 @@ Laravel Trail automatically tracks and stores the following tags, providing valu
 
 2. **Additional Tags**
     - `anonymous_id`: A unique identifier for tracking anonymous users on your website.
+    - `user_id`: A unique identifier for registered or logged-in users on your website.
+    - `email`: A unique email for registered or logged-in users on your website.
+    - `name`: Full name for registered or logged-in users on your website.
     - `landing_page`: The first page the user visits on your website during a session.
     - `exit_page`: The last page the user visits before leaving your website.
     - `ip_address`: The user's IP address, which can provide insights into their location and network.
@@ -93,7 +96,6 @@ Laravel Trail automatically tracks and stores the following tags, providing valu
     - `screen_resolution`: The user's screen resolution.
     - `page_views`: The number of pages viewed by the user during a single session.
     - `conversion_date`: The date when a user completes a desired action or goal (e.g., making a purchase or signing up for a newsletter).
-    - `user_id`: A unique identifier for registered or logged-in users on your website.
 
 These tags can help you optimize your website for better user experience and higher conversion rates by giving you a deeper understanding of user interactions and traffic patterns.
 
@@ -126,7 +128,7 @@ You have 2 options to save the utm tags:
     }
 ```
 
-#### 2. Using middleware
+#### 2. Using a middleware in your route
 
 ```php
    Route::group([ 'middleware' => ['web', HandleUtmTagsMiddleware::class]], function () {
@@ -151,7 +153,7 @@ You have 2 options to save the utm tags:
     }
 ```
 
-#### 2. Using middleware
+#### 2. Using a middleware in your route
 
 ```php
    Route::group([ 'middleware' => ['web', CaptureReferrerMiddleware::class]], function () {
@@ -160,6 +162,54 @@ You have 2 options to save the utm tags:
             });
         });  //...
     }
+```
+### Identify a user
+The only required parameter is userId:
+
+```php
+   \Combindma\Trail\Facades\Trail::identify($userId);//User id can be an email if you don't offer a sign-up in your website
+   \Combindma\Trail\Facades\Trail::identify($userId, 'email@domain.com', 'full name'); //you may also save an email with a name
+```
+
+### Get the cookies data
+In order to get the saved data you can request it using:
+```php
+   \Combindma\Trail\Facades\Trail::data($request);
+   \Combindma\Trail\Facades\Trail::data(); //Behind the scene uses request() helper
+```
+
+This will return a formatted data object:
+```php
+    readonly class TrailDto
+    {
+        public function __construct(
+            public string $anonymousId,
+            public ?string $userId,
+            public ?string $email,
+            public ?string $name,
+            public ?string $landingPage,
+            public ?string $exitPage,
+            public ?string $lastActivity,
+            public ?string $ipAddress,
+            public ?string $language,
+            public ?string $userAgent,
+            public ?string $referrer,
+            public ?string $referrerCode,
+            public ?string $utmSource,
+            public ?string $utmMedium,
+            public ?string $utmCampaign,
+            public ?string $utmTerm,
+            public ?string $utmContent,
+    ) {
+    }
+}
+```
+
+### Additional methods
+```php
+   \Combindma\Trail\Facades\Trail::disable(); //Disable in the fly
+   \Combindma\Trail\Facades\Trail::enable(); //Enable in the fly
+   \Combindma\Trail\Facades\Trail::getAnonymousId(); //Get anonymous id
 ```
 
 ## Testing

@@ -27,6 +27,9 @@ class Trail
 
     public function setTrailCookie(string $name, mixed $value): void
     {
+        if ($this->isDisabled()) {
+            return;
+        }
         Cookie::queue(Cookie::make($this->prefix.$name, $value, $this->cookieDuration));
     }
 
@@ -78,6 +81,10 @@ class Trail
 
     public function getAnonymousId(Request $request): string
     {
+        if ($this->isDisabled()) {
+            return Str::uuid()->toString();
+        }
+
         $anonymousId = $request->cookie($this->prefix.'anonymous_id');
 
         if (empty($anonymousId)) {
@@ -118,10 +125,33 @@ class Trail
         }
     }
 
-    public function data(Request $request): TrailDto
+    public function identify(string $userId, ?string $email = null, ?string $name = null): void
     {
+        if ($this->isDisabled()) {
+            return;
+        }
+        $this->setTrailCookie('user_id', $userId);
+
+        if ($email !== null) {
+            $this->setTrailCookie('email', $email);
+        }
+
+        if ($name !== null) {
+            $this->setTrailCookie('name', $name);
+        }
+    }
+
+    public function data(?Request $request = null): TrailDto
+    {
+        if ($request === null) {
+            $request = request();
+        }
+
         return new TrailDto(
             $this->getAnonymousId($request),
+            $request->cookie($this->prefix.'user_id'),
+            $request->cookie($this->prefix.'email'),
+            $request->cookie($this->prefix.'name'),
             $request->cookie($this->prefix.'landing_page'),
             $request->cookie($this->prefix.'exit_page'),
             $request->cookie($this->prefix.'last_activity'),

@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static void disable()
  * @method static void setTrailCookie(string $name, mixed $value)
  * @method static array|string|null getTrailCookie(Request $request, string $name)
- * @method static TrailDto data(Request $request)
+ * @method static void identify(string $userId, ?string $email = null, ?string $name = null)
+ * @method static TrailDto data(?Request $request = null)
  */
 class Trail extends Facade
 {

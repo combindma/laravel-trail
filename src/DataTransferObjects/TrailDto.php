@@ -6,6 +6,9 @@ readonly class TrailDto
 {
     public function __construct(
         public string $anonymousId,
+        public ?string $userId,
+        public ?string $email,
+        public ?string $name,
         public ?string $landingPage,
         public ?string $exitPage,
         public ?string $lastActivity,

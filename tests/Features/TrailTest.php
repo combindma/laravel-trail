@@ -3,6 +3,8 @@
 use Combindma\Trail\Trail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 
 beforeEach(function () {
     Config::set('trail.prefix', 'app_');
@@ -45,6 +47,13 @@ it('retrieves the correct trail cookie value', function () {
     $retrievedValue = $trail->getTrailCookie($request, $name);
 
     expect($retrievedValue)->toEqual($value);
+});
+
+it('does not set cookies when feature is disabled', function () {
+    $trail = new Trail();
+    $trail->disable();
+    $trail->setTrailCookie('cookie_name', 'testValue');
+    expect(Cookie::getQueuedCookies())->toBeEmpty();
 });
 
 it('initializes trail and sets cookies correctly', function () {
@@ -101,4 +110,85 @@ it('sets referrer cookies correctly', function () {
     foreach ($referrerParameters as $name => $value) {
         $response->assertCookie($trail->prefix.$name, $value);
     }
+});
+
+it('generates and sets a new anonymous ID if not present in cookies', function () {
+    $trail = new Trail();
+    $request = Request::create('/test-url');
+    $anonymousId = $trail->getAnonymousId($request);
+    $cookie = collect(Cookie::getQueuedCookies())->first(fn ($cookie) => $cookie->getName() === 'app_anonymous_id');
+
+    expect($anonymousId)->not->toBeNull()
+        ->and($cookie)->not->toBeNull()
+        ->and($cookie->getValue())->toEqual($anonymousId);
+});
+
+it('sets cookies for user identification', function () {
+    $trail = new Trail();
+
+    $userId = 'user123';
+    $email = 'user@example.com';
+    $name = 'John Doe';
+
+    $trail->identify($userId, $email, $name);
+
+    $queuedCookies = Cookie::getQueuedCookies();
+    $userIdCookie = collect($queuedCookies)->first(fn ($cookie) => $cookie->getName() === 'app_user_id');
+    $emailCookie = collect($queuedCookies)->first(fn ($cookie) => $cookie->getName() === 'app_email');
+    $nameCookie = collect($queuedCookies)->first(fn ($cookie) => $cookie->getName() === 'app_name');
+
+    expect($userIdCookie)->not->toBeNull()
+        ->and($userIdCookie->getValue())->toEqual($userId)
+        ->and($emailCookie)->not->toBeNull()
+        ->and($emailCookie->getValue())->toEqual($email)
+        ->and($nameCookie)->not->toBeNull()
+        ->and($nameCookie->getValue())->toEqual($name);
+
+});
+
+it('sets only provided identification cookies', function () {
+    $userId = 'user123';
+    \Combindma\Trail\Facades\Trail::identify($userId);
+
+    $queuedCookies = Cookie::getQueuedCookies();
+    $userIdCookie = collect($queuedCookies)->first(fn ($cookie) => $cookie->getName() === 'app_user_id');
+    $emailCookie = collect($queuedCookies)->first(fn ($cookie) => $cookie->getName() === 'app_email');
+    $nameCookie = collect($queuedCookies)->first(fn ($cookie) => $cookie->getName() === 'app_name');
+
+    expect($userIdCookie)->not->toBeNull()
+        ->and($userIdCookie->getValue())->toEqual($userId)
+        ->and($emailCookie)->toBeNull()
+        ->and($nameCookie)->toBeNull();
+
+});
+
+it('correctly constructs TrailDto with custom request data', function () {
+    $cookieData = [
+        'userId' => '123',
+        'email' => 'user@example.com',
+        'name' => 'John Doe',
+        'landingPage' => '/home',
+        'exitPage' => '/exit',
+        'lastActivity' => 'recent',
+        'ipAddress' => '127.0.0.1',
+        'language' => 'en',
+        'userAgent' => 'Mozilla',
+        'referrer' => 'external',
+        'referrerCode' => 'abcd',
+        'utmSource' => 'google',
+        'utmMedium' => 'cpc',
+        'utmCampaign' => 'summer_sale',
+        'utmTerm' => 'shoes',
+        'utmContent' => 'ad_content',
+    ];
+
+    $request = Request::create('/test');
+    foreach ($cookieData as $key => $value) {
+        $request->cookies->set('app_'.Str::snake($key), $value);
+    }
+    $trailDto = \Combindma\Trail\Facades\Trail::data($request);
+    foreach ($cookieData as $key => $value) {
+        expect($trailDto->{$key})->toEqual($value);
+    }
+    expect($trailDto->anonymousId)->not->toBeNull();
 });
