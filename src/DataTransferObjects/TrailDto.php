@@ -2,6 +2,8 @@
 
 namespace Combindma\Trail\DataTransferObjects;
 
+use Carbon\Carbon;
+
 readonly class TrailDto
 {
     public function __construct(
@@ -11,7 +13,7 @@ readonly class TrailDto
         public ?string $name,
         public ?string $landingPage,
         public ?string $exitPage,
-        public ?string $lastActivity,
+        public ?Carbon $lastActivity,
         public ?string $ipAddress,
         public ?string $language,
         public ?string $userAgent,
