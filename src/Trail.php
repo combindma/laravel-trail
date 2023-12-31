@@ -2,7 +2,6 @@
 
 namespace Combindma\Trail;
 
-use Carbon\Carbon;
 use Combindma\Trail\DataTransferObjects\TrailDto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -155,7 +154,7 @@ class Trail
             $request->cookie($this->prefix.'name'),
             $request->cookie($this->prefix.'landing_page'),
             $request->cookie($this->prefix.'exit_page'),
-            $request->cookie($this->prefix.'last_activity') ? Carbon::make($request->cookie($this->prefix.'last_activity')) : null,
+            $request->cookie($this->prefix.'last_activity'),
             $request->cookie($this->prefix.'ip_address'),
             $request->cookie($this->prefix.'language'),
             $request->cookie($this->prefix.'user_agent'),
