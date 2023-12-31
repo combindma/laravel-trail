@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void init(Request $request)
  * @method static void setUtmCookies(Request $request)
  * @method static void setReferrerCookies(Request $request)
+ * @method static void setUserCookie(Request $request)
  * @method static void enable()
  * @method static void disable()
  * @method static void setTrailCookie(string $name, mixed $value)

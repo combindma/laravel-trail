@@ -3,6 +3,7 @@
 namespace Combindma\Trail\Tests;
 
 use Combindma\Trail\Middleware\CaptureReferrerMiddleware;
+use Combindma\Trail\Middleware\CaptureUserMiddleware;
 use Combindma\Trail\Middleware\HandleUtmTagsMiddleware;
 use Combindma\Trail\Middleware\TrailSetupMiddleware;
 use Combindma\Trail\TrailServiceProvider;
@@ -46,6 +47,12 @@ class TestCase extends Orchestra
 
         Route::group(['middleware' => ['web', CaptureReferrerMiddleware::class]], function () {
             Route::get('/test-trail-referrer', function (Request $request) {
+                return $request;
+            });
+        });
+
+        Route::group(['middleware' => ['web', CaptureUserMiddleware::class]], function () {
+            Route::get('/test-trail-user', function (Request $request) {
                 return $request;
             });
         });

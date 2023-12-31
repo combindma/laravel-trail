@@ -112,6 +112,22 @@ it('sets referrer cookies correctly', function () {
     }
 });
 
+it('sets user cookies correctly', function () {
+    $trail = new Trail();
+
+    $userParameters = [
+        'user_id' => '123456',
+        'email' => 'email@email.com',
+    ];
+    $request = Request::create('/test-url', 'GET', $userParameters);
+    $trail->setUserCookie($request);
+    $response = $this->get('/test-trail');
+
+    foreach ($userParameters as $name => $value) {
+        $response->assertCookie($trail->prefix.$name, $value);
+    }
+});
+
 it('generates and sets a new anonymous ID if not present in cookies', function () {
     $trail = new Trail();
     $request = Request::create('/test-url');

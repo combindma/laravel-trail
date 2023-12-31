@@ -103,7 +103,7 @@ These tags can help you optimize your website for better user experience and hig
 
 ### Add the setup middleware
 
-This middleware is responsable for setting: anonymous_id, exit_page, landing_page, last_activity, user_agent, ip_address, language
+This middleware is responsable for setting: anonymous_id, user_id, exit_page, landing_page, last_activity, user_agent, ip_address, language
 ```php
 // app/Http/Kernel.php
 protected $middleware = [
@@ -131,8 +131,8 @@ You have 2 options to save the utm tags:
 #### 2. Using a middleware in your route
 
 ```php
-   Route::group([ 'middleware' => ['web', HandleUtmTagsMiddleware::class]], function () {
-            Route::get('/test-trail-utm', function (Request $request) {
+   Route::group([ 'middleware' => ['web', \Combindma\Trail\Middleware\HandleUtmTagsMiddleware::class]], function () {
+            Route::get('/test-trail', function (Request $request) {
                 //...
             });
         });  //...
@@ -156,13 +156,43 @@ You have 2 options to save the utm tags:
 #### 2. Using a middleware in your route
 
 ```php
-   Route::group([ 'middleware' => ['web', CaptureReferrerMiddleware::class]], function () {
-            Route::get('/test-trail-referrer', function (Request $request) {
+   Route::group([ 'middleware' => ['web', \Combindma\Trail\Middleware\CaptureReferrerMiddleware::class]], function () {
+            Route::get('/test-trail', function (Request $request) {
                 //...
             });
         });  //...
     }
 ```
+
+### Save User ID or Email
+You can capture a user id or email using an url with those parameters: user_id or email.
+
+For exemple: domaine.com?user_id=123456&email=email@email.com 
+
+You have 2 options to save the user:
+
+#### 1. In your controller
+
+```php
+    public function index(Request $request)
+    {
+        \Combindma\Trail\Facades\Trail::setUserCookie($request);
+        
+        //...
+    }
+```
+
+#### 2. Using a middleware in your route
+
+```php
+   Route::group([ 'middleware' => ['web', \Combindma\Trail\Middleware\CaptureUserMiddleware::class]], function () {
+            Route::get('/test-trail', function (Request $request) {
+                //...
+            });
+        });  //...
+    }
+```
+
 ### Identify a user
 The only required parameter is userId:
 

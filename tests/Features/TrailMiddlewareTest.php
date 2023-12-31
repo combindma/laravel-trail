@@ -91,3 +91,18 @@ it('sets referrer cookies correctly using middleware', function () {
         $response->assertCookie('app_'.$expectedCookie, $referrerParameters[$expectedCookie]);
     }
 });
+
+it('sets user cookies correctly using middleware', function () {
+    $referrerParameters = [
+        'user_id' => '123456',
+        'email' => 'email@email.com',
+    ];
+    $response = $this->get('/test-trail-user?user_id=123456&email=email@email.com');
+    $expectedCookies = [
+        'user_id',
+        'email',
+    ];
+    foreach ($expectedCookies as $expectedCookie) {
+        $response->assertCookie('app_'.$expectedCookie, $referrerParameters[$expectedCookie]);
+    }
+});

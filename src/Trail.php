@@ -125,6 +125,21 @@ class Trail
         }
     }
 
+    public function setUserCookie(Request $request): void
+    {
+        if ($this->isDisabled()) {
+            return;
+        }
+
+        if ($request->has('user_id')) {
+            $this->setTrailCookie('user_id', $request->input('user_id'));
+        }
+
+        if ($request->has('email')) {
+            $this->setTrailCookie('email', $request->input('email'));
+        }
+    }
+
     public function identify(string $userId, ?string $email = null, ?string $name = null): void
     {
         if ($this->isDisabled()) {
