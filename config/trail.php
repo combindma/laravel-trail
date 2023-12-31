@@ -7,9 +7,9 @@ return [
     'prefix' => env('TAIL_COOKIE_PREFIX', config('app.name', 'laravel')).'_',
 
     /*
-     * The cookie duration in seconds used to store data. By default, we use 30 days.
+     * The cookie duration in seconds used to store data. By default, we use 180 days.
      */
-    'cookie_duration' => env('TAIL_COOKIE_DURATION', 60 * 24 * 30),
+    'cookie_duration' => env('TAIL_COOKIE_DURATION', 60 * 24 * 180),
 
     /*
      * Enable or disable script rendering. Useful for local development.
