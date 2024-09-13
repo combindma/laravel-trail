@@ -67,7 +67,7 @@ class Trail
         $this->setTrailCookie('last_activity', now());
         $this->setTrailCookie('user_agent', $request->userAgent());
         $this->setTrailCookie('ip_address', $request->ip());
-        $this->setTrailCookie('language', substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2));
+        $this->setTrailCookie('language', substr($request->server('HTTP_ACCEPT_LANGUAGE') ?? 'fr', 0, 2));
 
         if (empty($request->cookie($this->prefix.'landing_page'))) {
             $this->setTrailCookie('landing_page', $request->url());
