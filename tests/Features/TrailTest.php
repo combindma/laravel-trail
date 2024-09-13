@@ -13,14 +13,14 @@ beforeEach(function () {
 });
 
 it('sets the configuration values', function () {
-    $trail = new Trail();
+    $trail = new Trail;
     expect($trail->prefix)->toBe('app_')
         ->and($trail->cookieDuration)->toBe(30)
         ->and($trail->enabled)->toBeTrue();
 });
 
 it('can enabled or disabled the trail package', function () {
-    $trail = new Trail();
+    $trail = new Trail;
     expect($trail->isEnabled())->toBeTrue()->and($trail->isDisabled())->toBeFalse();
     $trail->disable();
     expect($trail->isEnabled())->toBeFalse()->and($trail->isDisabled())->toBeTrue();
@@ -29,7 +29,7 @@ it('can enabled or disabled the trail package', function () {
 });
 
 it('sets a trail cookie correctly', function () {
-    $trail = new Trail();
+    $trail = new Trail;
     $name = 'cookie_name';
     $value = 'testValue';
     $trail->setTrailCookie($name, $value);
@@ -39,7 +39,7 @@ it('sets a trail cookie correctly', function () {
 });
 
 it('retrieves the correct trail cookie value', function () {
-    $trail = new Trail();
+    $trail = new Trail;
     $name = 'cookie_name';
     $value = 'testValue';
     $request = Request::create('/some-route');
@@ -50,14 +50,14 @@ it('retrieves the correct trail cookie value', function () {
 });
 
 it('does not set cookies when feature is disabled', function () {
-    $trail = new Trail();
+    $trail = new Trail;
     $trail->disable();
     $trail->setTrailCookie('cookie_name', 'testValue');
     expect(Cookie::getQueuedCookies())->toBeEmpty();
 });
 
 it('initializes trail and sets cookies correctly', function () {
-    $trail = new Trail();
+    $trail = new Trail;
     $request = Request::create('/test-url');
     $trail->init($request);
     $response = $this->get('/test-trail');
@@ -78,7 +78,7 @@ it('initializes trail and sets cookies correctly', function () {
 });
 
 it('sets UTM cookies correctly', function () {
-    $trail = new Trail();
+    $trail = new Trail;
 
     $utmParameters = [
         'utm_source' => 'google',
@@ -97,7 +97,7 @@ it('sets UTM cookies correctly', function () {
 });
 
 it('sets referrer cookies correctly', function () {
-    $trail = new Trail();
+    $trail = new Trail;
 
     $referrerParameters = [
         'referrer' => 'external_site',
@@ -113,7 +113,7 @@ it('sets referrer cookies correctly', function () {
 });
 
 it('sets user cookies correctly', function () {
-    $trail = new Trail();
+    $trail = new Trail;
 
     $userParameters = [
         'user_id' => '123456',
@@ -129,7 +129,7 @@ it('sets user cookies correctly', function () {
 });
 
 it('generates and sets a new anonymous ID if not present in cookies', function () {
-    $trail = new Trail();
+    $trail = new Trail;
     $request = Request::create('/test-url');
     $anonymousId = $trail->getAnonymousId($request);
     $cookie = collect(Cookie::getQueuedCookies())->first(fn ($cookie) => $cookie->getName() === 'app_anonymous_id');
@@ -140,7 +140,7 @@ it('generates and sets a new anonymous ID if not present in cookies', function (
 });
 
 it('sets cookies for user identification', function () {
-    $trail = new Trail();
+    $trail = new Trail;
 
     $userId = 'user123';
     $email = 'user@example.com';

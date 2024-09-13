@@ -22,6 +22,5 @@ readonly class TrailDto
         public ?string $utmCampaign,
         public ?string $utmTerm,
         public ?string $utmContent,
-    ) {
-    }
+    ) {}
 }
