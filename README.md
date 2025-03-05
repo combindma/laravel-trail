@@ -1,4 +1,4 @@
-# A simple package for tracking user activities on your Laravel website. [BETA testing]
+# A simple package for tracking user activities on your Laravel website.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/combindma/laravel-trail.svg?style=flat-square)](https://packagist.org/packages/combindma/laravel-trail)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/combindma/laravel-trail/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/combindma/laravel-trail/actions?query=workflow%3Arun-tests+branch%3Amain)
