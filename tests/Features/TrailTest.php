@@ -164,7 +164,7 @@ it('sets cookies for user identification', function () {
 
 it('sets only provided identification cookies', function () {
     $userId = 'user123';
-    \Combindma\Trail\Facades\Trail::identify($userId);
+    Combindma\Trail\Facades\Trail::identify($userId);
 
     $queuedCookies = Cookie::getQueuedCookies();
     $userIdCookie = collect($queuedCookies)->first(fn ($cookie) => $cookie->getName() === 'app_user_id');
@@ -202,7 +202,7 @@ it('correctly constructs TrailDto with custom request data', function () {
     foreach ($cookieData as $key => $value) {
         $request->cookies->set('app_'.Str::snake($key), $value);
     }
-    $trailDto = \Combindma\Trail\Facades\Trail::data($request);
+    $trailDto = Combindma\Trail\Facades\Trail::data($request);
     foreach ($cookieData as $key => $value) {
         expect($trailDto->{$key})->toEqual($value);
     }
